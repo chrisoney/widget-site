@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const { environment, jwtConfig } = require('./config');
-const { User } = require('./db/models');
+const { environment, jwtConfig } = require('../config');
+const { User } = require('../db/models');
 
 const { secret, expiresIn } = jwtConfig;
 
@@ -13,11 +13,11 @@ const setTokenCookie = (res, user) => {
 
   const isProduction = environment === 'production';
 
-  res.cookie('token', {
+  res.cookie('token', token, {
     maxAge: expiresIn * 1000,
     httpOnly: true,
     secure: isProduction,
-    sameSite: isProduction && 'lax',
+    sameSite: isProduction && "Lax",
   });
 
   return token;
