@@ -3,7 +3,8 @@ import thunk from 'redux-thunk';
 
 let enhancer: any;
 
-interface windowWithRedux extends Window {
+export interface windowWithRedux extends Window {
+  store?: {};
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: any;
 }
 
@@ -19,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 const rootReducer = combineReducers({
 })
 
-const configureStore = (preloadedState: {} | undefined): Store => {
+const configureStore = (preloadedState: ({} | undefined)): Store => {
   return createStore(rootReducer, preloadedState, enhancer);
 };
 
