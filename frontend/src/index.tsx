@@ -5,10 +5,17 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import configureStore, { windowWithRedux } from './store';
 
+import { restoreCSRF, csrfFetch } from './store/csrf';
+
+
 const store = configureStore(undefined);
 const myWindow : windowWithRedux = window;
 
-if (process.env.NODE_ENV !== 'production') myWindow.store = store;
+if (process.env.NODE_ENV !== 'production') {
+  restoreCSRF();
+  myWindow.csrfFetch = csrfFetch;
+  myWindow.store = store;
+}
 
 function Root() {
   return (
