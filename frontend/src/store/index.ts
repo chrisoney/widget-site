@@ -7,6 +7,7 @@ export interface windowWithRedux extends Window {
   store?: {};
   __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: any;
   csrfFetch?: any;
+  sessionActions?: any;
 }
 
 if (process.env.NODE_ENV === 'production') {

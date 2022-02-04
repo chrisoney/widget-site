@@ -1,8 +1,20 @@
-import { fetch } from './csrf';
+import { Dispatch } from 'redux';
+import { csrfFetch } from './csrf';
 
 enum SessionReducerKeys {
   addSessionUser = 'session/addUser',
   removeSessionUser = 'session/removeUser'
+}
+
+interface LoginAttrs {
+  credential: string,
+  password: string
+}
+
+interface SignupAttrs {
+  username: string,
+  email: string,
+  password: string
 }
 
 interface UserAttrs {
@@ -22,6 +34,48 @@ const removeSessionUser = () => ({
   type: SessionReducerKeys.removeSessionUser,
   payload: {}
 })
+
+export const login = (user: LoginAttrs) => async (dispatch: Dispatch) => {
+  const { credential, password } = user;
+  const res = await csrfFetch('/api/session', {
+    method: 'POST',
+    body: JSON.stringify({
+      credential,
+      password
+    })
+  })
+  console.log(res.data);
+  dispatch(addSessionUser(res.data.user));
+  return res;
+}
+
+export const signup = (user: SignupAttrs) => async (dispatch: Dispatch) => {
+  const { username, email, password } = user;
+
+  const res = await csrfFetch('/api/users', {
+    method: 'POST',
+    body: JSON.stringify({
+      username,
+      email,
+      password
+    })
+  });
+
+  dispatch(addSessionUser(res.data.user));
+  return res;
+}
+
+export const restoreUser = () => async (dispatch: Dispatch) => {
+  const res = await csrfFetch('/api/session');
+  dispatch(addSessionUser(res.data.user));
+  return res;
+}
+
+export const logout = () => async (dispatch: Dispatch) => {
+  const res = await csrfFetch('/api/session', { method: 'DELETE' });
+  dispatch(removeSessionUser());
+  return res;
+}
 
 interface SessionType {
   user?: UserAttrs | null
