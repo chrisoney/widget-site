@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-import configureStore, { windowWithRedux } from './store';
+import configureStore, { WindowWithRedux } from './store';
 import * as sessionActions from './store/session';
 
 import { restoreCSRF, csrfFetch } from './store/csrf';
 
 
-const store = configureStore(undefined);
-const myWindow : windowWithRedux = window;
+export const store = configureStore(undefined);
+const myWindow : WindowWithRedux = window;
 
 if (process.env.NODE_ENV !== 'production') {
   restoreCSRF();

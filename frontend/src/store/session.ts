@@ -6,18 +6,28 @@ enum SessionReducerKeys {
   removeSessionUser = 'session/removeUser'
 }
 
-interface LoginAttrs {
+export interface IAddSessionUserAction {
+  readonly type: 'ADDUSER';
+}
+export interface IRemoveSessionUserAction {
+  readonly type: 'REMOVEUSER';
+}
+export type SessionActions =
+| IAddSessionUserAction
+| IRemoveSessionUserAction
+
+export interface LoginAttrs {
   credential: string,
   password: string
 }
 
-interface SignupAttrs {
+export interface SignupAttrs {
   username: string,
   email: string,
   password: string
 }
 
-interface UserAttrs {
+export interface UserAttrs {
   id: number,
   email?: string,
   username: string,
